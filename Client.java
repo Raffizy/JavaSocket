@@ -19,11 +19,24 @@ public class Client{
             Scanner myName = new Scanner(System.in);
             String UID= myName.nextLine();
             System.out.println("Welcome: " + UID + "\nEnter your message:\n");
-            Scanner myObj = new Scanner(System.in);
-            String myMessage= myObj.nextLine();
-
-            out.writeObject(new Message( UID , myMessage ));
-
+            
+            
+            
+            //implemented loop
+            boolean a= true;
+            while (a){
+                Scanner myObj = new Scanner(System.in);
+                String myMessage= myObj.nextLine();
+                if(myMessage.equals("quit")){
+                    a = false;
+                    System.out.println("Disconnecting");
+                    break;
+                }
+                out.writeObject(new Message( UID , myMessage ));
+                System.out.println("Enter your message:\n");
+            }
+            
+            
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
