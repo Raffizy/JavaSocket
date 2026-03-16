@@ -12,17 +12,17 @@ public class Client{
         try {
             Socket socket = new Socket("172.20.13.68",12345);
             System.out.println("Connected to Server");
-            System.out.println("Enter your message");
             //sending output
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             //sending custom messages
+            System.out.println("Enter your name:\n");
+            Scanner myName = new Scanner(System.in);
+            String UID= myName.nextLine();
+            System.out.println("Welcome: " + UID + "\nEnter your message:\n");
             Scanner myObj = new Scanner(System.in);
             String myMessage= myObj.nextLine();
 
-            out.writeObject(new Message("Alice" , myMessage ));
-            
-
-            
+            out.writeObject(new Message( UID , myMessage ));
 
             try {
                 Thread.sleep(1000);
