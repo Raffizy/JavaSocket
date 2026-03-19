@@ -10,11 +10,14 @@ public class Client{
     
   
         try {
-            Socket socket = new Socket("172.20.13.68",12345);
+            Socket socket = new Socket("172.19.9.77",12345);
             System.out.println("Connected to Server");
             //sending output
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            //sending custom messages
+            out.flush();
+            MessageReceiver receiver = new MessageReceiver(socket);
+            new Thread(receiver).start();
+            //sending UID
             System.out.println("Enter your name:\n");
             Scanner myName = new Scanner(System.in);
             String UID= myName.nextLine();
@@ -25,6 +28,7 @@ public class Client{
             //implemented loop
             boolean a= true;
             while (a){
+                //sending custom message
                 Scanner myObj = new Scanner(System.in);
                 String myMessage= myObj.nextLine();
                 if(myMessage.equals("quit")){
