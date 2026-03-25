@@ -19,6 +19,7 @@ public class ClientHandler implements Runnable{
         try {
             out.writeObject(message);
             out.flush();
+            
         }
         catch(IOException e){
         System.out.println("Error" + e.getMessage());

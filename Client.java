@@ -37,7 +37,7 @@ public class Client{
                     break;
                 }
                 out.writeObject(new Message( Username , myMessage ));
-                System.out.println("Enter your message:\n");
+                
             }
             
             
