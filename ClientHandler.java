@@ -29,16 +29,12 @@ public class ClientHandler implements Runnable{
 
     public void run(){
 
-        Message firstMessage =null;
         try {
             out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-            //firstMessage records teh users Unique id only once, so whnever the code runs the username wont get cloned
-            firstMessage = (Message)in.readObject();            
-            System.out.println("Clients connectected: "+ clients + ", ");
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());           
             clients.put(assignedID, this);
-            System.out.println(firstMessage);
+            System.out.println("Clients connectected: "+ clients + ", ");
             
             //implementing loop
             boolean a=true;
@@ -52,7 +48,7 @@ public class ClientHandler implements Runnable{
             }
         //disconnection
         catch (SocketException e){
-            System.out.println( firstMessage.Username + " disconnected from the Server");
+            System.out.println(  assignedID + " disconnected from the Server");
 
         }
         //error detection
