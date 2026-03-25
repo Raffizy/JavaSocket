@@ -11,18 +11,19 @@ public class Client{
   
         try {
             Socket socket = new Socket("172.20.12.115",12345);
-            System.out.println("Connected to Server");
-            //sending output
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
-            MessageReceiver receiver = new MessageReceiver(socket);
-            new Thread(receiver).start();
+            
             //saving clients's username;
             System.out.println("Enter your name:\n");
             Scanner myName = new Scanner(System.in);
             String Username= myName.nextLine();
-            System.out.println("Welcome: " + Username + "\nEnter your message:\n");
-            
+            System.out.println("Connected to Server");
+            System.out.println("Welcome: " + Username + "\nEnter your message:");
+            out.writeObject(new Message(Username, "JOIN"));
+            out.flush();
+            MessageReceiver receiver = new MessageReceiver(socket);
+            new Thread(receiver).start();
             
             
             //implemented loop
