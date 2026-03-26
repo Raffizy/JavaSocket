@@ -10,7 +10,7 @@ public class Client{
     
   
         try {
-            Socket socket = new Socket("172.19.51.132",12345);
+            Socket socket = new Socket("192.168.0.249",12345);
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
             

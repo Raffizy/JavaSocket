@@ -16,9 +16,15 @@ public class MessageReceiver implements Runnable {
             while (true) {
                 Message message = (Message) in.readObject();
                 if (message.Username.equals("SERVER")) {
-                    System.out.println("Your unique ID: " +  message.content);
+                    if(message.content.startsWith("COORDINATOR")){
+                        String coord = message.content.substring("COORDINATOR".length());
+                            System.out.println("The current coordinator is: " + coord);
+                            continue;
+                    }
+                    System.out.println("Your unique ID: " + message.content);
                     continue;
                 }
+
                 System.out.println(message);
                 
             }

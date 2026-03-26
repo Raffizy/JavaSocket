@@ -47,7 +47,7 @@ public class ClientHandler implements Runnable{
             out.writeObject(idMsg);
             out.flush();
             //tell client who coordinator is
-            Message CoordMsg = new Message("SERVER","COORDINATOR:" + Server.idCoordinator); 
+            Message CoordMsg = new Message("SERVER", "COORDINATOR" +  Server.idCoordinator); 
             out.writeObject(CoordMsg);
             out.flush();
 
