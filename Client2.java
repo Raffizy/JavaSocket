@@ -10,19 +10,21 @@ public class Client2{
     
   
         try {
-            Socket socket = new Socket("172.20.12.115",12345);
-            System.out.println("Connected to Server");
-            //sending output
+            Socket socket = new Socket("172.31.208.1",12345);
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
-            MessageReceiver receiver = new MessageReceiver(socket);
-            new Thread(receiver).start();
+            
             //saving clients's username;
             System.out.println("Enter your name:\n");
             Scanner myName = new Scanner(System.in);
             String Username= myName.nextLine();
-            System.out.println("Welcome: " + Username + "\nEnter your message:\n");
-            
+            System.out.println("Connected to Server");
+            System.out.println("Welcome: " + Username);
+            out.writeObject(new Message(Username, "JOIN"));
+            out.flush();
+            MessageReceiver receiver = new MessageReceiver(socket);
+            new Thread(receiver).start();
+            System.out.println("Enter your message: ");
             
             
             //implemented loop
@@ -37,7 +39,7 @@ public class Client2{
                     break;
                 }
                 out.writeObject(new Message( Username , myMessage ));
-                System.out.println("Enter your message:\n");
+                
             }
             
             

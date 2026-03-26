@@ -35,12 +35,22 @@ public class ClientHandler implements Runnable{
             out = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());           
             out.flush();
+
         
             Message UsernameMessage = (Message) in.readObject();
             String DisplayUsername = UsernameMessage.Username; 
             System.out.println("Client joined with username: " + DisplayUsername);
             System.out.println(DisplayUsername + " assigned with ID: " + assignedID + "\n");
             clients.put(assignedID, this);
+            //tell client their ID
+            Message idMsg = new Message("SERVER", assignedID);
+            out.writeObject(idMsg);
+            out.flush();
+            //tell client who coordinator is
+            Message CoordMsg = new Message("SERVER","COORDINATOR:" + Server.idCoordinator); 
+            out.writeObject(CoordMsg);
+            out.flush();
+
             
             
             //implementing loop
