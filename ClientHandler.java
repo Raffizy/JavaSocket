@@ -57,9 +57,27 @@ public class ClientHandler implements Runnable{
             boolean a=true;
             while (a){
                 Message message = (Message)in.readObject();
-                System.out.println(message);                
+                System.out.println(message);   
+                //private messaging
+
+                if (message.content.startsWith("PRIVATE:")){
+                    String[] parts = message.content.split(":",3);
+                    String targetID = parts[1];
+                    String PrivateMessage = parts[2];
+
+                    ClientHandler target = clients.get(targetID);
+                    if (target == null){
+                        this.sendMessage(new Message("SERVER", "Invalid target ID: " + targetID));
+                        continue;
+                    }    
+                        target.sendMessage(new Message(message.Username, "Private Message:" + PrivateMessage));
+                        continue;
+                    
+                }
+                //Broadcast messaging
                 for (ClientHandler client : clients.values()){
                     client.sendMessage(message);
+              
                 }
             }
             }
