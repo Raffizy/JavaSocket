@@ -8,10 +8,12 @@ public class ClientHandler implements Runnable{
     //importing hashmap
     private HashMap<String, ClientHandler> clients;
     private String assignedID;
+    
     public ClientHandler(Socket socket, HashMap<String, ClientHandler> clients, String assignedID){
     this.socket = socket;
     this.clients = clients;
     this.assignedID = assignedID;
+    
     }
     //bradcast message to users 
     //wip
@@ -42,6 +44,9 @@ public class ClientHandler implements Runnable{
             System.out.println("Client joined with username: " + DisplayUsername);
             System.out.println(DisplayUsername + " assigned with ID: " + assignedID + "\n");
             clients.put(assignedID, this);
+            Server.clientUsernames.put(assignedID, DisplayUsername);
+
+  
             //tell client their ID
             Message idMsg = new Message("SERVER", assignedID);
             out.writeObject(idMsg);
@@ -51,13 +56,32 @@ public class ClientHandler implements Runnable{
             out.writeObject(CoordMsg);
             out.flush();
 
-            
+            //coordinator role features
+            //takes ip and port from client and stores it
+            String ip = socket.getInetAddress().getHostAddress();
+            int port = socket.getPort();
+            Server.clientIPs.put(assignedID,ip);
+            Server.clientPorts.put(assignedID, port);
             
             //implementing loop
             boolean a=true;
             while (a){
                 Message message = (Message)in.readObject();
                 System.out.println(message);   
+                //list
+                if (message.content.equals("/list")){
+                    for (String id : Server.clients.keySet()){
+                        String ClientIP = Server.clientIPs.get(id);
+                        int ClientPort = Server.clientPorts.get(id);
+                        String ClientName = Server.clientUsernames.get(id); 
+                        this.sendMessage(new Message("SERVER", "MEMBER:"+ id+ ":" + ClientName + ":" + ClientIP + ":" + ClientPort));
+                    }
+                    this.sendMessage(new Message("SERVER", "COORDINATOR:" + Server.idCoordinator));
+                    continue;
+                    
+                }
+
+
                 //private messaging
 
                 if (message.content.startsWith("PRIVATE:")){
@@ -70,7 +94,7 @@ public class ClientHandler implements Runnable{
                         this.sendMessage(new Message("SERVER", "Invalid target ID: " + targetID));
                         continue;
                     }    
-                        target.sendMessage(new Message(message.Username, "Private Message:" + PrivateMessage));
+                        target.sendMessage(new Message(message.Username, "Sent you a private message:" + PrivateMessage));
                         continue;
                     
                 }

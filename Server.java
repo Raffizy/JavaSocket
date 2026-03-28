@@ -4,10 +4,16 @@ import java.util.*;
 public class Server{
     //creating a hashmap to record the users that joined
     static HashMap<String , ClientHandler> clients = new HashMap<>();
+    static HashMap<String , String> clientUsernames = new HashMap<>();
     //initialising id counter used for assigning unique ids to clients,will be used also for private messaging
     //initialising empty coordinator id that will be used to assign the server coordinator
     public static int idCounter =1;
     public static String idCoordinator = null;
+    //initialising hashmaps to hold clients ip and ports 
+    static HashMap<String, String> clientIPs = new HashMap<>();
+    static HashMap<String, Integer> clientPorts = new HashMap<>();
+
+
     
     public static void main(String[] args){
         try {

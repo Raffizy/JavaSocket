@@ -33,6 +33,16 @@ public class Client{
                 //sending custom message
                 Scanner myObj = new Scanner(System.in);
                 String myMessage= myObj.nextLine();
+                //list
+                if (myMessage.equals("/list") || myMessage.equals("/List")){
+                    out.writeObject(new Message(Username , "/list"));
+                    out.flush();
+                    continue;
+
+
+                }
+
+
                 //private messaging
                 if(myMessage.equals("/Private")||myMessage.equals("/private")){
                     //creating new inputs to read target and content without passing by the
